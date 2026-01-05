@@ -1,22 +1,22 @@
+# core/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import *
+from . import views
 
 router = DefaultRouter()
-router.register(r'banners', BannerViewSet)
-router.register(r'statistics', StatisticsViewSet)
-router.register(r'useful-links', UsefulLinkViewSet)
-router.register(r'news', NewsViewSet)
-router.register(r'about', AboutViewSet)
-router.register(r'leadership', LeadershipViewSet)
-router.register(r'departments', JobVacancyDepartmentViewSet)
-router.register(r'work-types', TypeOfWorkViewSet)
-router.register(r'vacancies', JobVacancyViewSet)
-router.register(r'interactive-services', InteractiveServiceViewSet)
-router.register(r'decisions', DecisionViewSet)
-router.register(r'contacts', ContactViewSet)
+router.register(r'banners', views.BannerViewSet)
+router.register(r'statistics', views.StatisticsViewSet)
+router.register(r'useful-links', views.UsefulLinkViewSet)
+router.register(r'news', views.NewsViewSet)
+router.register(r'about', views.AboutViewSet)
+router.register(r'leadership', views.LeadershipViewSet)
+router.register(r'job-vacancy-departments', views.JobVacancyDepartmentViewSet)
+router.register(r'type-of-works', views.TypeOfWorkViewSet)
+router.register(r'job-vacancies', views.JobVacancyViewSet)
+router.register(r'interactive-services', views.InteractiveServiceViewSet)
+router.register(r'decisions', views.DecisionViewSet)
+router.register(r'contacts', views.ContactViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', include(router.urls)),
 ]

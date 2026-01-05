@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     # 'rosetta',  # tarjima uchun
     'ckeditor',
     'ckeditor_uploader',
+    
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     # Local apps
     'core',
 ]
@@ -136,6 +139,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # Telegram bot sozlamalari
@@ -148,3 +152,20 @@ HITCOUNT_HITS_PER_IP_LIMIT = 0  # cheksiz
 HITCOUNT_EXCLUDE_USER_GROUP = ()
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Water Management API',
+    'DESCRIPTION': 'Suv xo\'jaligi tizimi uchun API dokumentatsiyasi',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'COMPONENT_SPLIT_REQUEST': True,
+    'COMPONENT_NO_READ_ONLY_REQUIRED': False,
+    
+    # Image field'lar uchun
+    'COMPONENT_SPLIT_PATCH': True,
+    'COMPONENT_SPLIT_CREATE': True,
+
+}
