@@ -139,8 +139,8 @@ REST_FRAMEWORK = {
 }
 
 # Telegram bot sozlamalari
-TELEGRAM_BOT_TOKEN = 'your_bot_token_here'
-TELEGRAM_CHAT_ID = 'your_chat_id_here'
+TELEGRAM_BOT_TOKEN = '7977582154:AAEqxQsY40i792Vnxrzn0XdBS9iLzGye3ZQ'
+TELEGRAM_CHAT_ID = '5182300111'
 
 # Hitcount sozlamalari
 HITCOUNT_KEEP_HIT_ACTIVE = {'days': 7}
