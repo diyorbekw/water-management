@@ -11,7 +11,11 @@ SECRET_KEY = "y_e#%0ek53+(sqll)))g28^t7$r(%#c)n8%jl!2s(+5djv2igb"
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "water-management.sifatdev.uz",
+    "127.0.0.1",
+    "localhost",
+]
 
 # Ilovalar ro'yxati
 INSTALLED_APPS = [
