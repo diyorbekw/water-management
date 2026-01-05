@@ -17,7 +17,7 @@ ALLOWED_HOSTS = [
     "localhost",
 ]
 
-# Ilovalar ro'yxati
+# Ilovalar ro'yxati 
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
