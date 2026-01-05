@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  django:
+    build: .
+    container_name: water-management
+    ports:
+      - "7009:7009"
+    volumes:
+      - .:/app
