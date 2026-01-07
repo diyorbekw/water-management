@@ -103,7 +103,7 @@ class NewsAdmin(BaseAdmin):
 
 # About Admin - FIXED VERSION
 @admin.register(About)
-class AboutAdmin(BaseAdmin):
+class AboutAdmin(BaseAdmin): 
     list_display = ('qisqacha_nomlanishi', 'hudud', 'tuman', 'created_date')
     list_filter = ('hudud', 'created_date')
     search_fields = ('qisqacha_nomlanishi', 'tasischi', 'tuman', 'inn')
