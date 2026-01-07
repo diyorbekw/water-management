@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from hitcount.models import HitCount
-from .models import *
+from .models import * 
 
 # Base admin class with common functionality
 class BaseAdmin(admin.ModelAdmin):
