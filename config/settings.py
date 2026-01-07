@@ -113,15 +113,6 @@ LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
 
-# Tarjima uchun
-# MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
-# MODELTRANSLATION_LANGUAGES = ('uz', 'uz-cyrl', 'ru')
-
-# # Tarjima fayllari
-# MODELTRANSLATION_TRANSLATION_FILES = (
-#     'core.translation',
-# )
-
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
