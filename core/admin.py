@@ -14,7 +14,7 @@ class StatisticsAdmin(BaseAdmin):
     list_display = ('korsatilayotgan_xizmatlar', 'hududiy_boshqarmalar_soni', 'nasos_stansiyalar_soni', 'xodimlar', 'created_date')
     fields = ('korsatilayotgan_xizmatlar', 'hududiy_boshqarmalar_soni', 'nasos_stansiyalar_soni', 'xodimlar', 'created_date', 'updated_date')
 
-# Contact Admin
+# Contact Admin 
 @admin.register(Contact)
 class ContactAdmin(BaseAdmin):
     list_display = ('full_name', 'phone_number', 'email', 'created_date', 'is_read')
