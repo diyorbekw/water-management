@@ -95,7 +95,7 @@ class NewsAdmin(BaseAdmin):
             'fields': ('title_uz_cyrl', 'category_uz_cyrl', 'content_uz_cyrl'),
             'classes': ('collapse',)
         }),
-    )
+    ) 
     
     def get_views_count(self, obj):
         return obj.views_count.count()
