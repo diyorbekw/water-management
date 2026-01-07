@@ -7,7 +7,7 @@ from .models import *
 class BaseAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
     list_per_page = 20
-
+ 
 # Statistics Admin
 @admin.register(Statistics)
 class StatisticsAdmin(BaseAdmin):
