@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
     "water-management.sifatdev.uz",
     "127.0.0.1",
     "localhost",
-]
+] 
 
 # Ilovalar ro'yxati 
 INSTALLED_APPS = [
