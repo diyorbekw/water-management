@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'drf_spectacular_sidecar',
     # Local apps
     'core',
-]
+] 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
