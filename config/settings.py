@@ -173,7 +173,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://water-management.sifatdev.uz",
-    "https://aquaflow-six.vercel.app/"
+    "https://aquaflow-six.vercel.appg"
 ]
  
 CSRF_TRUSTED_ORIGINS = [
