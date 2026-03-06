@@ -101,7 +101,7 @@ class NewsAdmin(BaseAdmin):
         return obj.views_count.count()
     get_views_count.short_description = _("Ko'rishlar soni")
 
-# About Admin - FIXED VERSION
+# About Admin
 @admin.register(About)
 class AboutAdmin(BaseAdmin):
     list_display = ('qisqacha_nomlanishi', 'hudud', 'tuman', 'created_date')
@@ -200,8 +200,6 @@ class JobVacancyAdmin(BaseAdmin):
     list_display = ('title', 'get_leadership', 'get_department', 'get_type_of_work', 'created_date')
     list_filter = ('leadership', 'department', 'type_of_work', 'created_date')
     search_fields = ('title', 'title_ru', 'title_uz_cyrl', 'location', 'description')
-    # raw_id_fields ni olib tashlang yoki kommentga oling
-    # raw_id_fields = ('leadership', 'department', 'type_of_work')
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         ('Asosiy ma\'lumotlar', {
@@ -290,3 +288,130 @@ class DecisionAdmin(BaseAdmin):
     def get_views_count(self, obj):
         return obj.views_count.count()
     get_views_count.short_description = _("Ko'rishlar soni")
+
+# -------------------- YANGI ADMINLAR --------------------
+
+# CentralOffice Admin
+@admin.register(CentralOffice)
+class CentralOfficeAdmin(BaseAdmin):
+    list_display = ('name', 'leader', 'position', 'phone', 'created_date')
+    search_fields = ('name', 'name_ru', 'name_uz_cyrl', 'leader', 'position')
+    list_filter = ('created_date',)
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('name', 'leader', 'position', 'phone', 'reception_days')
+        }),
+        ('Tavsif - O\'zbekcha (Lotin)', {
+            'fields': ('description',)
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('name_ru', 'leader_ru', 'position_ru', 'phone_ru', 'reception_days_ru', 'description_ru'),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('name_uz_cyrl', 'leader_uz_cyrl', 'position_uz_cyrl', 'phone_uz_cyrl', 'reception_days_uz_cyrl', 'description_uz_cyrl'),
+            'classes': ('collapse',)
+        }),
+    )
+
+# RegionalDepartment Admin
+@admin.register(RegionalDepartment)
+class RegionalDepartmentAdmin(BaseAdmin):
+    list_display = ('name', 'region', 'leader', 'phone', 'created_date')
+    list_filter = ('region', 'created_date')
+    search_fields = ('name', 'name_ru', 'name_uz_cyrl', 'leader', 'address')
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('name', 'region', 'address', 'leader', 'phone')
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('name_ru', 'address_ru', 'leader_ru', 'phone_ru'),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('name_uz_cyrl', 'address_uz_cyrl', 'leader_uz_cyrl', 'phone_uz_cyrl'),
+            'classes': ('collapse',)
+        }),
+    )
+
+# TaskFunction Admin
+@admin.register(TaskFunction)
+class TaskFunctionAdmin(BaseAdmin):
+    list_display = ('title', 'order', 'created_date')
+    list_filter = ('created_date',)
+    search_fields = ('title', 'title_ru', 'title_uz_cyrl', 'description')
+    list_editable = ('order',)
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('title', 'description', 'order')
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('title_ru', 'description_ru'),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('title_uz_cyrl', 'description_uz_cyrl'),
+            'classes': ('collapse',)
+        }),
+    )
+
+# Law Admin
+@admin.register(Law)
+class LawAdmin(BaseAdmin):
+    list_display = ('title', 'number', 'date', 'created_date')
+    list_filter = ('date', 'created_date')
+    search_fields = ('title', 'title_ru', 'title_uz_cyrl', 'number')
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('title', 'number', 'date', 'file')
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('title_ru', 'number_ru'),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('title_uz_cyrl', 'number_uz_cyrl'),
+            'classes': ('collapse',)
+        }),
+    )
+
+# Document Admin
+@admin.register(Document)
+class DocumentAdmin(BaseAdmin):
+    list_display = ('title', 'published_date', 'created_date')
+    list_filter = ('published_date', 'created_date')
+    search_fields = ('title', 'title_ru', 'title_uz_cyrl')
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('title', 'file', 'published_date')
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('title_ru',),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('title_uz_cyrl',),
+            'classes': ('collapse',)
+        }),
+    )
+
+# OpenData Admin
+@admin.register(OpenData)
+class OpenDataAdmin(BaseAdmin):
+    list_display = ('title', 'updated_at', 'created_date')
+    list_filter = ('updated_at', 'created_date')
+    search_fields = ('title', 'title_ru', 'title_uz_cyrl', 'description')
+    readonly_fields = ('updated_at', 'created_date', 'updated_date')
+    fieldsets = (
+        ('Asosiy ma\'lumotlar - O\'zbekcha (Lotin)', {
+            'fields': ('title', 'description', 'file')
+        }),
+        ('Ruscha tarjimalar', {
+            'fields': ('title_ru', 'description_ru'),
+            'classes': ('collapse',)
+        }),
+        ('O\'zbekcha (Kirill) tarjimalar', {
+            'fields': ('title_uz_cyrl', 'description_uz_cyrl'),
+            'classes': ('collapse',)
+        }),
+    )

@@ -605,3 +605,282 @@ class ContactViewSet(viewsets.ModelViewSet):
         contact.is_read = True
         contact.save()
         return Response({'status': 'Murojaat o\'qilgan deb belgilandi'})
+
+
+# -------------------- YANGI VIEWLAR --------------------
+
+# 13. CentralOffice CRUD
+class CentralOfficeViewSet(viewsets.ModelViewSet):
+    """
+    Markaziy apparat uchun to'liq CRUD amallari
+    """
+    queryset = CentralOffice.objects.all()
+    serializer_class = CentralOfficeSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['name', 'name_ru', 'name_uz_cyrl', 'leader', 'position']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 60))
+    def list(self, request, *args, **kwargs):
+        """Markaziy apparat ma'lumotlarini olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi markaziy apparat ma'lumotini yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Markaziy apparat ma'lumotini olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Markaziy apparat ma'lumotini yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Markaziy apparat ma'lumotini qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Markaziy apparat ma'lumotini o'chirish"""
+        return super().destroy(request, *args, **kwargs)
+
+
+# 14. RegionalDepartment CRUD
+class RegionalDepartmentViewSet(viewsets.ModelViewSet):
+    """
+    Hududiy boshqarmalar uchun to'liq CRUD amallari
+    """
+    queryset = RegionalDepartment.objects.all()
+    serializer_class = RegionalDepartmentSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'name_ru', 'name_uz_cyrl', 'leader', 'address']
+    filterset_fields = ['region']
+    ordering_fields = ['region', 'name', 'created_date']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 30))
+    def list(self, request, *args, **kwargs):
+        """Barcha hududiy boshqarmalarni olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi hududiy boshqarma yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Bitta hududiy boshqarmani olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Hududiy boshqarmani yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Hududiy boshqarmani qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Hududiy boshqarmani o'chirish"""
+        return super().destroy(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'])
+    def by_region(self, request):
+        """Viloyat bo'yicha filtrlash"""
+        region = request.query_params.get('region', None)
+        if region:
+            departments = self.queryset.filter(region=region)
+            serializer = self.get_serializer(departments, many=True)
+            return Response(serializer.data)
+        return Response({'error': 'region parametri kerak'}, status=400)
+
+
+# 15. TaskFunction CRUD
+class TaskFunctionViewSet(viewsets.ModelViewSet):
+    """
+    Vazifalar va funksiyalar uchun to'liq CRUD amallari
+    """
+    queryset = TaskFunction.objects.all()
+    serializer_class = TaskFunctionSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'title_ru', 'title_uz_cyrl', 'description']
+    ordering_fields = ['order', 'title', 'created_date']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 60 * 24))
+    def list(self, request, *args, **kwargs):
+        """Barcha vazifa va funksiyalarni olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi vazifa yoki funksiya yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Bitta vazifa yoki funksiyani olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Vazifa yoki funksiyani yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Vazifa yoki funksiyani qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Vazifa yoki funksiyani o'chirish"""
+        return super().destroy(request, *args, **kwargs)
+
+
+# 16. Law CRUD
+class LawViewSet(viewsets.ModelViewSet):
+    """
+    Qonunlar uchun to'liq CRUD amallari
+    """
+    queryset = Law.objects.all()
+    serializer_class = LawSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'title_ru', 'title_uz_cyrl', 'number']
+    filterset_fields = ['date']
+    ordering_fields = ['date', 'title', 'created_date']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 30))
+    def list(self, request, *args, **kwargs):
+        """Barcha qonunlarni olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi qonun yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Bitta qonunni olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Qonunni yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Qonunni qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Qonunni o'chirish"""
+        return super().destroy(request, *args, **kwargs)
+
+
+# 17. Document CRUD
+class DocumentViewSet(viewsets.ModelViewSet):
+    """
+    Tashkilot hujjatlari uchun to'liq CRUD amallari
+    """
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'title_ru', 'title_uz_cyrl']
+    filterset_fields = ['published_date']
+    ordering_fields = ['published_date', 'title', 'created_date']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 30))
+    def list(self, request, *args, **kwargs):
+        """Barcha hujjatlarni olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi hujjat yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Bitta hujjatni olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Hujjatni yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Hujjatni qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Hujjatni o'chirish"""
+        return super().destroy(request, *args, **kwargs)
+
+
+# 18. OpenData CRUD
+class OpenDataViewSet(viewsets.ModelViewSet):
+    """
+    Ochiq ma'lumotlar uchun to'liq CRUD amallari
+    """
+    queryset = OpenData.objects.all()
+    serializer_class = OpenDataSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'title_ru', 'title_uz_cyrl', 'description']
+    filterset_fields = ['updated_at']
+    ordering_fields = ['updated_at', 'title', 'created_date']
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    @method_decorator(cache_page(60 * 30))
+    def list(self, request, *args, **kwargs):
+        """Barcha ochiq ma'lumotlarni olish"""
+        return super().list(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """Yangi ochiq ma'lumot yaratish"""
+        return super().create(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """Bitta ochiq ma'lumotni olish"""
+        return super().retrieve(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """Ochiq ma'lumotni yangilash"""
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """Ochiq ma'lumotni qisman yangilash"""
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Ochiq ma'lumotni o'chirish"""
+        return super().destroy(request, *args, **kwargs)

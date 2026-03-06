@@ -153,3 +153,80 @@ class ContactCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = ['full_name', 'phone_number', 'email', 'message']
+
+
+# -------------------- YANGI SERIALIZERLAR --------------------
+
+class CentralOfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CentralOffice
+        fields = '__all__'
+
+
+class RegionalDepartmentSerializer(serializers.ModelSerializer):
+    region_display = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = RegionalDepartment
+        fields = '__all__'
+    
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_region_display(self, obj):
+        return obj.get_region_display_uz()
+
+
+class TaskFunctionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskFunction
+        fields = '__all__'
+
+
+class LawSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Law
+        fields = '__all__'
+    
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_file_url(self, obj):
+        if obj.file and hasattr(obj.file, 'url'):
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Document
+        fields = '__all__'
+    
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_file_url(self, obj):
+        if obj.file and hasattr(obj.file, 'url'):
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
+
+
+class OpenDataSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = OpenData
+        fields = '__all__'
+    
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_file_url(self, obj):
+        if obj.file and hasattr(obj.file, 'url'):
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None

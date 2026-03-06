@@ -2,8 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
-from ckeditor.fields import RichTextField  # O'ZGARTIRILDI: tinymce -> ckeditor
-from ckeditor_uploader.fields import RichTextUploadingField  # YANGI: Rasm yuklash uchun
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -74,7 +74,6 @@ class News(BaseModel, HitCountMixin):
     title_uz_cyrl = models.CharField(max_length=255, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
     main_image = models.ImageField(upload_to='news/', verbose_name="Asosiy rasm")
     
-    # YANGI: Category field qo'shildi (varchar)
     category = models.CharField(
         max_length=100, 
         verbose_name="Kategoriya",
@@ -94,7 +93,6 @@ class News(BaseModel, HitCountMixin):
         null=True
     )
     
-    # YANGI: O'qish vaqti (daqiqalarda)
     minutes_to_read = models.PositiveIntegerField(
         verbose_name="O'qish vaqti (daqiqa)",
         default=5,
@@ -125,7 +123,6 @@ class News(BaseModel, HitCountMixin):
         return self.views_count.count()
     
     def get_translated_title(self, language_code='uz'):
-        """Til bo'yicha tarjima qilingan sarlavha"""
         if language_code == 'ru':
             return self.title_ru or self.title
         elif language_code == 'uz-cyrl':
@@ -133,7 +130,6 @@ class News(BaseModel, HitCountMixin):
         return self.title
     
     def get_translated_content(self, language_code='uz'):
-        """Til bo'yicha tarjima qilingan matn"""
         if language_code == 'ru':
             return self.content_ru or self.content
         elif language_code == 'uz-cyrl':
@@ -141,7 +137,6 @@ class News(BaseModel, HitCountMixin):
         return self.content
     
     def get_translated_category(self, language_code='uz'):
-        """Til bo'yicha tarjima qilingan kategoriya"""
         if language_code == 'ru':
             return self.category_ru or self.category
         elif language_code == 'uz-cyrl':
@@ -239,7 +234,6 @@ class Leadership(BaseModel):
     position_ru = models.CharField(max_length=255, verbose_name="Должность", blank=True, null=True)
     position_uz_cyrl = models.CharField(max_length=255, verbose_name="Лавозим (Кирилл)", blank=True, null=True)
     
-    # YANGI: Rasm maydoni qo'shildi
     image = models.ImageField(upload_to='leadership/', verbose_name="Rasm", blank=True, null=True)
     
     reception_time = models.CharField(max_length=255, verbose_name="Qabul vaqtlari")
@@ -247,13 +241,13 @@ class Leadership(BaseModel):
     reception_time_uz_cyrl = models.CharField(max_length=255, verbose_name="Қабул вақтлари (Кирилл)", blank=True, null=True)
     
     phone_number = models.CharField(max_length=255, verbose_name="Telefon raqam")
-    about = RichTextField(verbose_name="Umumiy ma'lumot")  # O'ZGARTIRILDI: TextField -> RichTextField
-    about_ru = RichTextField(verbose_name="Общая информация", blank=True, null=True)  # O'ZGARTIRILDI
-    about_uz_cyrl = RichTextField(verbose_name="Умумий маълумот (Кирилл)", blank=True, null=True)  # O'ZGARTIRILDI
+    about = RichTextField(verbose_name="Umumiy ma'lumot")
+    about_ru = RichTextField(verbose_name="Общая информация", blank=True, null=True)
+    about_uz_cyrl = RichTextField(verbose_name="Умумий маълумот (Кирилл)", blank=True, null=True)
     
-    labor_activity = RichTextField(verbose_name="Mehnat faoliyati")  # O'ZGARTIRILDI: TextField -> RichTextField
-    labor_activity_ru = RichTextField(verbose_name="Трудовая деятельность", blank=True, null=True)  # O'ZGARTIRILDI
-    labor_activity_uz_cyrl = RichTextField(verbose_name="Меҳнат фаолияти (Кирилл)", blank=True, null=True)  # O'ZGARTIRILDI
+    labor_activity = RichTextField(verbose_name="Mehnat faoliyati")
+    labor_activity_ru = RichTextField(verbose_name="Трудовая деятельность", blank=True, null=True)
+    labor_activity_uz_cyrl = RichTextField(verbose_name="Меҳнат фаолияти (Кирилл)", blank=True, null=True)
     
     slug = models.SlugField(max_length=300, unique=True, blank=True)
     
@@ -324,9 +318,9 @@ class JobVacancy(BaseModel):
         related_name='vacancies',
         verbose_name="Ish turi"
     )
-    description = RichTextField(verbose_name="Tavsif")  # O'ZGARTIRILDI: TextField -> RichTextField
-    description_ru = RichTextField(verbose_name="Описание", blank=True, null=True)  # O'ZGARTIRILDI
-    description_uz_cyrl = RichTextField(verbose_name="Тавсиф (Кирилл)", blank=True, null=True)  # O'ZGARTIRILDI
+    description = RichTextField(verbose_name="Tavsif")
+    description_ru = RichTextField(verbose_name="Описание", blank=True, null=True)
+    description_uz_cyrl = RichTextField(verbose_name="Тавсиф (Кирилл)", blank=True, null=True)
     
     slug = models.SlugField(max_length=300, unique=True, blank=True)
     
@@ -349,9 +343,9 @@ class InteractiveService(BaseModel, HitCountMixin):
     title_ru = models.CharField(max_length=255, verbose_name="Заголовок", blank=True, null=True)
     title_uz_cyrl = models.CharField(max_length=255, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
     
-    about = RichTextField(verbose_name="Ma'lumot")  # O'ZGARTIRILDI: TextField -> RichTextField
-    about_ru = RichTextField(verbose_name="Информация", blank=True, null=True)  # O'ZGARTIRILDI
-    about_uz_cyrl = RichTextField(verbose_name="Маълумот (Кирилл)", blank=True, null=True)  # O'ZGARTIRILDI
+    about = RichTextField(verbose_name="Ma'lumot")
+    about_ru = RichTextField(verbose_name="Информация", blank=True, null=True)
+    about_uz_cyrl = RichTextField(verbose_name="Маълумот (Кирилл)", blank=True, null=True)
     
     slug = models.SlugField(max_length=300, unique=True, blank=True)
     views_count = GenericRelation(HitCount, object_id_field='object_pk')
@@ -378,9 +372,9 @@ class Decision(BaseModel, HitCountMixin):
     title_ru = models.CharField(max_length=255, verbose_name="Заголовок", blank=True, null=True)
     title_uz_cyrl = models.CharField(max_length=255, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
     
-    content = RichTextUploadingField(verbose_name="Matn")  # O'ZGARTIRILDI: HTMLField -> RichTextUploadingField
-    content_ru = RichTextUploadingField(verbose_name="Текст", blank=True, null=True)  # O'ZGARTIRILDI
-    content_uz_cyrl = RichTextUploadingField(verbose_name="Матн (Кирилл)", blank=True, null=True)  # O'ZGARTIRILDI
+    content = RichTextUploadingField(verbose_name="Matn")
+    content_ru = RichTextUploadingField(verbose_name="Текст", blank=True, null=True)
+    content_uz_cyrl = RichTextUploadingField(verbose_name="Матн (Кирилл)", blank=True, null=True)
     
     slug = models.SlugField(max_length=300, unique=True, blank=True)
     views_count = GenericRelation(HitCount, object_id_field='object_pk')
@@ -416,3 +410,173 @@ class Contact(BaseModel):
     
     def __str__(self):
         return f"{self.full_name} - {self.created_date.strftime('%d.%m.%Y')}"
+
+# -------------------- YANGI MODELLAR --------------------
+
+# 13. Markaziy apparat (CentralOffice) modeli
+class CentralOffice(BaseModel):
+    """Markaziy apparat modeli"""
+    name = models.CharField(max_length=255, verbose_name="Nomi")
+    name_ru = models.CharField(max_length=255, verbose_name="Название", blank=True, null=True)
+    name_uz_cyrl = models.CharField(max_length=255, verbose_name="Номи (Кирилл)", blank=True, null=True)
+    
+    leader = models.CharField(max_length=255, verbose_name="Rahbar")
+    leader_ru = models.CharField(max_length=255, verbose_name="Руководитель", blank=True, null=True)
+    leader_uz_cyrl = models.CharField(max_length=255, verbose_name="Рахбар (Кирилл)", blank=True, null=True)
+    
+    position = models.CharField(max_length=255, verbose_name="Lavozim")
+    position_ru = models.CharField(max_length=255, verbose_name="Должность", blank=True, null=True)
+    position_uz_cyrl = models.CharField(max_length=255, verbose_name="Лавозим (Кирилл)", blank=True, null=True)
+    
+    description = RichTextField(verbose_name="Tavsif")
+    description_ru = RichTextField(verbose_name="Описание", blank=True, null=True)
+    description_uz_cyrl = RichTextField(verbose_name="Тавсиф (Кирилл)", blank=True, null=True)
+    
+    phone = models.CharField(max_length=30, verbose_name="Telefon")
+    phone_ru = models.CharField(max_length=30, verbose_name="Телефон", blank=True, null=True)
+    phone_uz_cyrl = models.CharField(max_length=30, verbose_name="Телефон (Кирилл)", blank=True, null=True)
+    
+    reception_days = models.CharField(max_length=255, verbose_name="Qabul kunlari")
+    reception_days_ru = models.CharField(max_length=255, verbose_name="Дни приема", blank=True, null=True)
+    reception_days_uz_cyrl = models.CharField(max_length=255, verbose_name="Қабл кунлари (Кирилл)", blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Markaziy apparat"
+        verbose_name_plural = "Markaziy apparat"
+    
+    def __str__(self):
+        return self.name
+
+# 14. Hududiy boshqarmalar (RegionalDepartment) modeli
+class RegionalDepartment(BaseModel):
+    """Hududiy boshqarmalar modeli"""
+    name = models.CharField(max_length=255, verbose_name="Nomi")
+    name_ru = models.CharField(max_length=255, verbose_name="Название", blank=True, null=True)
+    name_uz_cyrl = models.CharField(max_length=255, verbose_name="Номи (Кирилл)", blank=True, null=True)
+    
+    region = models.CharField(max_length=50, choices=REGION_CHOICES, verbose_name="Viloyat")
+    
+    address = models.CharField(max_length=500, verbose_name="Manzil")
+    address_ru = models.CharField(max_length=500, verbose_name="Адрес", blank=True, null=True)
+    address_uz_cyrl = models.CharField(max_length=500, verbose_name="Манзил (Кирилл)", blank=True, null=True)
+    
+    leader = models.CharField(max_length=255, verbose_name="Rahbar")
+    leader_ru = models.CharField(max_length=255, verbose_name="Руководитель", blank=True, null=True)
+    leader_uz_cyrl = models.CharField(max_length=255, verbose_name="Рахбар (Кирилл)", blank=True, null=True)
+    
+    phone = models.CharField(max_length=30, verbose_name="Telefon")
+    phone_ru = models.CharField(max_length=30, verbose_name="Телефон", blank=True, null=True)
+    phone_uz_cyrl = models.CharField(max_length=30, verbose_name="Телефон (Кирилл)", blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Hududiy boshqarma"
+        verbose_name_plural = "Hududiy boshqarmalar"
+        ordering = ['region', 'name']
+    
+    def __str__(self):
+        return f"{self.get_region_display()} - {self.name}"
+    
+    def get_region_display_uz(self):
+        hudud_map = {
+            'toshkent_shahri': 'Toshkent shahri',
+            'toshkent_viloyati': 'Toshkent viloyati',
+            'andijon_viloyati': 'Andijon viloyati',
+            'buxoro_viloyati': 'Buxoro viloyati',
+            'fargona_viloyati': 'Farg\'ona viloyati',
+            'jizzax_viloyati': 'Jizzax viloyati',
+            'xorazm_viloyati': 'Xorazm viloyati',
+            'namangan_viloyati': 'Namangan viloyati',
+            'navoiy_viloyati': 'Navoiy viloyati',
+            'qashqadaryo_viloyati': 'Qashqadaryo viloyati',
+            'qoraqalpogiston': 'Qoraqalpog\'iston Respublikasi',
+            'samarqand_viloyati': 'Samarqand viloyati',
+            'sirdaryo_viloyati': 'Sirdaryo viloyati',
+            'surxondaryo_viloyati': 'Surxondaryo viloyati',
+        }
+        return hudud_map.get(self.region, self.region)
+
+# 15. Vazifalar va funksiyalar (TaskFunction) modeli
+class TaskFunction(BaseModel):
+    """Vazifalar va funksiyalar modeli"""
+    title = models.CharField(max_length=255, verbose_name="Sarlavha")
+    title_ru = models.CharField(max_length=255, verbose_name="Заголовок", blank=True, null=True)
+    title_uz_cyrl = models.CharField(max_length=255, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
+    
+    description = RichTextField(verbose_name="Tavsif")
+    description_ru = RichTextField(verbose_name="Описание", blank=True, null=True)
+    description_uz_cyrl = RichTextField(verbose_name="Тавсиф (Кирилл)", blank=True, null=True)
+    
+    order = models.PositiveIntegerField(verbose_name="Tartib", default=0)
+    
+    class Meta:
+        verbose_name = "Vazifa va funksiya"
+        verbose_name_plural = "Vazifalar va funksiyalar"
+        ordering = ['order', 'title']
+    
+    def __str__(self):
+        return self.title
+
+# 16. Qonunlar (Law) modeli
+class Law(BaseModel):
+    """Qonunlar modeli"""
+    title = models.CharField(max_length=500, verbose_name="Sarlavha")
+    title_ru = models.CharField(max_length=500, verbose_name="Заголовок", blank=True, null=True)
+    title_uz_cyrl = models.CharField(max_length=500, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
+    
+    number = models.CharField(max_length=100, verbose_name="Raqami")
+    number_ru = models.CharField(max_length=100, verbose_name="Номер", blank=True, null=True)
+    number_uz_cyrl = models.CharField(max_length=100, verbose_name="Рақами (Кирилл)", blank=True, null=True)
+    
+    date = models.DateField(verbose_name="Sana")
+    
+    file = models.FileField(upload_to='laws/', verbose_name="Fayl")
+    
+    class Meta:
+        verbose_name = "Qonun"
+        verbose_name_plural = "Qonunlar"
+        ordering = ['-date', 'title']
+    
+    def __str__(self):
+        return f"{self.title} ({self.number})"
+
+# 17. Tashkilot hujjatlari (Document) modeli
+class Document(BaseModel):
+    """Tashkilot hujjatlari modeli"""
+    title = models.CharField(max_length=500, verbose_name="Sarlavha")
+    title_ru = models.CharField(max_length=500, verbose_name="Заголовок", blank=True, null=True)
+    title_uz_cyrl = models.CharField(max_length=500, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
+    
+    file = models.FileField(upload_to='documents/', verbose_name="Fayl")
+    
+    published_date = models.DateField(verbose_name="Nashr qilingan sana")
+    
+    class Meta:
+        verbose_name = "Hujjat"
+        verbose_name_plural = "Tashkilot hujjatlari"
+        ordering = ['-published_date', 'title']
+    
+    def __str__(self):
+        return self.title
+
+# 18. Ochiq ma'lumotlar (OpenData) modeli
+class OpenData(BaseModel):
+    """Ochiq ma'lumotlar modeli"""
+    title = models.CharField(max_length=500, verbose_name="Sarlavha")
+    title_ru = models.CharField(max_length=500, verbose_name="Заголовок", blank=True, null=True)
+    title_uz_cyrl = models.CharField(max_length=500, verbose_name="Сарлавҳа (Кирилл)", blank=True, null=True)
+    
+    description = RichTextField(verbose_name="Tavsif")
+    description_ru = RichTextField(verbose_name="Описание", blank=True, null=True)
+    description_uz_cyrl = RichTextField(verbose_name="Тавсиф (Кирилл)", blank=True, null=True)
+    
+    file = models.FileField(upload_to='open_data/', verbose_name="Fayl")
+    
+    updated_at = models.DateTimeField(verbose_name="Yangilangan sana", auto_now=True)
+    
+    class Meta:
+        verbose_name = "Ochiq ma'lumot"
+        verbose_name_plural = "Ochiq ma'lumotlar"
+        ordering = ['-updated_at', 'title']
+    
+    def __str__(self):
+        return self.title

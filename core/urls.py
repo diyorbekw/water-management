@@ -17,6 +17,14 @@ router.register(r'interactive-services', views.InteractiveServiceViewSet)
 router.register(r'decisions', views.DecisionViewSet)
 router.register(r'contacts', views.ContactViewSet)
 
+# -------------------- YANGI URLS --------------------
+router.register(r'central-offices', views.CentralOfficeViewSet)
+router.register(r'regional-departments', views.RegionalDepartmentViewSet)
+router.register(r'task-functions', views.TaskFunctionViewSet)
+router.register(r'laws', views.LawViewSet)
+router.register(r'documents', views.DocumentViewSet)
+router.register(r'open-data', views.OpenDataViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
 ]
